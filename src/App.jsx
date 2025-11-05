@@ -13,6 +13,7 @@ function App() {
           <br></br>Use <strong>Ranker.io</strong> to create and share your own rankings!
         </p>
       </div>
+      <p>Coming soon...</p>
     </>
   )
 }
