@@ -1,19 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import './App.css'
+import NavBar from './components/NavBar'
+import { Routes, Route } from 'react-router-dom'
+import Home from './screens/Home'
+import Tutorial from './screens/Tutorial'
+import Datasets from './screens/Datasets'
 
 function App() {
-
   return (
     <>
-      <h1>Ranker.io</h1>
-      <div className="card">
-        <p>Want to rank all starting NFL quarterbacks? Have a definitive ranking of every Beatles album? 
-          <br></br>Use <strong>Ranker.io</strong> to create and share your own rankings!
-        </p>
+      <NavBar />
+      <div className="app-inner">
+        <Routes>
+          <Route path="*" element={<Home />} />
+          <Route path="/tutorial" element={<Tutorial />} />
+          <Route path="/datasets" element={<Datasets />} />
+        </Routes>
       </div>
-      <p>Coming soon...</p>
     </>
   )
 }

@@ -1,8 +1,20 @@
 #root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Centered app content (excludes navbar) */
+.app-inner {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+/* reserve space for fixed navbar so content isn't hidden underneath */
+body {
+  padding-top: 56px; /* approximate navbar height */
 }
 
 .logo {
