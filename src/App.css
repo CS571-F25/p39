@@ -1,85 +1,274 @@
+/* Color Scheme (70-20-10 Rule) */
+:root {
+  --primary-color: #606c38;      /* 70% - Dominant */
+  --secondary-color: #283618;    /* 20% - Secondary */
+  --accent-color: #fefae0;       /* 10% - Accent */
+  --text-dark: #1a1a1a;
+  --text-light: #f5f5f5;
+  --border-light: #e8e8e8;
+}
+
+/* Global styles */
+html, body {
+  background-color: var(--accent-color);
+  color: var(--text-dark);
+}
+
 #root {
   width: 100%;
   margin: 0;
   padding: 0;
+  background-color: var(--accent-color);
+}
+
+body {
+  padding-top: 70px;
+  background-color: var(--accent-color);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--secondary-color);
+  font-weight: 600;
 }
 
 /* Centered app content (excludes navbar) */
 .app-inner {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
   text-align: center;
 }
 
-/* reserve space for fixed navbar so content isn't hidden underneath */
-body {
-  padding-top: 56px; /* approximate navbar height */
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media (min-width: 768px) {
+  .app-inner {
+    padding: 2rem;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
+/* Cards */
 .card {
-  padding: 2em;
+  border: none;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(40, 54, 24, 0.15);
+  border-top: 4px solid var(--primary-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.read-the-docs {
-  color: #888;
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 54, 24, 0.25);
 }
 
-/* Tutorial list styling: make titles bold & slightly larger and keep numbers next to titles */
+.card p {
+  color: var(--text-dark);
+}
+
+.card h5 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--text-light);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 54, 24, 0.3);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+/* Alerts */
+.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffc107;
+  color: var(--text-dark);
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: var(--text-dark);
+}
+
+/* Tables */
+.table {
+  color: var(--text-dark);
+}
+
+.table thead th {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border-color: var(--secondary-color);
+  font-weight: 600;
+}
+
+.table tbody tr {
+  border-color: var(--border-light);
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(96, 108, 56, 0.08);
+}
+
+/* Tutorial list styling */
 .tutorial-list {
   list-style-position: inside;
   padding-left: 0;
 }
+
 .tutorial-list li {
   margin-bottom: 0.75rem;
+  color: var(--text-dark);
 }
+
 .tutorial-list .tutorial-title {
   display: inline-block;
   font-weight: 700;
   font-size: 1.08rem;
   margin-right: 0.4rem;
+  color: var(--secondary-color);
 }
 
-/* Make the tutorial card half the width of the container on larger screens,
-   but full width on small screens for readability */
+/* Tutorial card */
 .tutorial-card {
-  width: 50%;
+  width: 100%;
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
 }
-@media (max-width: 768px) {
+
+@media (min-width: 769px) {
   .tutorial-card {
-    width: 100%;
+    width: 50%;
+  }
+}
+
+/* Responsive improvements */
+@media (max-width: 576px) {
+  .app-inner {
+    padding: 1rem;
+  }
+
+  .container {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
+  .table-responsive {
+    font-size: 0.9rem;
+  }
+
+  .btn-lg {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Navbar customization */
+.navbar {
+  background-color: var(--primary-color) !important;
+  box-shadow: 0 2px 8px rgba(40, 54, 24, 0.2);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--accent-color) !important;
+}
+
+.nav-link {
+  color: var(--accent-color) !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin: 0 0.5rem;
+}
+
+.nav-link:hover {
+  color: var(--secondary-color) !important;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-color);
+  text-underline-offset: 0.35rem;
+}
+
+.nav-link.active {
+  color: var(--accent-color) !important;
+  border-bottom: 3px solid var(--accent-color);
+  padding-bottom: 0.35rem;
+}
+
+.navbar-toggler {
+  border-color: var(--accent-color);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23fefae0' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Link styling */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+/* List groups */
+.list-group-item {
+  border-color: var(--border-light);
+  background-color: #ffffff;
+  color: var(--text-dark);
+}
+
+.list-group-item:hover {
+  background-color: rgba(96, 108, 56, 0.05);
+}
+
+.list-group-item.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Ordered/Unordered lists */
+ol, ul {
+  color: var(--text-dark);
+}
+
+ol li, ul li {
+  margin-bottom: 0.5rem;
 }

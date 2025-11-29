@@ -6,9 +6,11 @@ export default function NavBar() {
     isActive ? 'nav-link active' : 'nav-link'
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <div className="container-fluid">
-        <NavLink className="navbar-brand" to="/">Ranker.io</NavLink>
+    <nav className="navbar navbar-expand-md navbar-dark fixed-top">
+      <div className="container-fluid px-3">
+        <NavLink className="navbar-brand" to="/">
+          Ranker.io
+        </NavLink>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
         </button>

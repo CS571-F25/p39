@@ -81,67 +81,69 @@ export default function Home() {
   }
 
   return (
-    <div className="container py-4">
-      <h2>Home</h2>
-      <div className="card p-3 mb-3">
-        <p>
-          Want to rank all starting NFL quarterbacks? Have a definitive ranking of every Beatles album?
-          <br />
-          Use <strong>Ranker.io</strong> to create and share your own rankings!
-        </p>
+    <div className="container-fluid py-3 py-md-4">
+      <div className="row">
+        <div className="col-12 col-lg-8 mx-auto">
+          <h2 className="mb-4">Home</h2>
+          <div className="card p-3 p-md-4 mb-3">
+            <p className="lead">
+              Want to rank all starting NFL quarterbacks? Have a definitive ranking of every Beatles album?
+              <br />
+              Use <strong>Ranker.io</strong> to create and share your own rankings!
+            </p>
 
-        <div className="mt-3">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".csv,text/csv"
-            style={{ display: 'none' }}
-            onChange={handleFile}
-          />
-          <button className="btn btn-primary me-2" onClick={onPickFile}>
-            Upload CSV Dataset
-          </button>
-          <small className="text-muted">You can upload a CSV to use as your dataset for rankings.</small>
-        </div>
-      </div>
+            <div className="mt-4">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv,text/csv"
+                style={{ display: 'none' }}
+                onChange={handleFile}
+              />
+              <button className="btn btn-primary btn-lg w-100 w-md-auto mb-2" onClick={onPickFile}>
+                Upload CSV Dataset
+              </button>
+              <div className="text-muted small mt-2">You can upload a CSV to use as your dataset for rankings.</div>
+            </div>
+          </div>
 
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-      )}
+          {error && (
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>Error:</strong> {error}
+            </div>
+          )}
 
-      {filename && (
-        <div className="card p-3">
-          <h5>Loaded dataset: {filename}</h5>
-          <p>{rows.length} row(s) parsed</p>
+          {filename && (
+            <div className="card p-3 p-md-4">
+              <h5 className="text-start mb-2">Loaded dataset:</h5>
+              <p className="text-start mb-3"><strong>{filename}</strong> • {rows.length} row(s)</p>
 
-          {rows.length > 0 && (
-            <div className="table-responsive">
-              <table className="table table-sm table-bordered">
-                <thead>
-                  <tr>
-                    {rows[0].map((h, i) => (
-                      <th key={i}>{h || `Col ${i + 1}`}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.slice(1, 6).map((r, ri) => (
-                    <tr key={ri}>
-                      {r.map((c, ci) => (
-                        <td key={ci}>{c}</td>
+              {rows.length > 0 && (
+                <div className="table-responsive">
+                  <table className="table table-hover">
+                    <thead>
+                      <tr>
+                        {rows[0].map((h, i) => (
+                          <th key={i}>{h || `Col ${i + 1}`}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rows.slice(1, 6).map((r, ri) => (
+                        <tr key={ri}>
+                          {r.map((c, ci) => (
+                            <td key={ci}>{c}</td>
+                          ))}
+                        </tr>
                       ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
         </div>
-      )}
-
-      {!filename && <p className="mt-3">Coming soon...</p>}
+      </div>
     </div>
   )
 }

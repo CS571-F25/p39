@@ -12,6 +12,7 @@ export default function RankerGame() {
   const [currentCompare, setCurrentCompare] = useState(null) // { leftIdx, rightIdx }
   const compareResolveRef = useRef(null)
   const [comparisons, setComparisons] = useState(0)
+  const [estimatedTotal, setEstimatedTotal] = useState(0)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -118,6 +119,9 @@ export default function RankerGame() {
     if (!items || items.length < 2) return
     setStatus('sorting')
     setComparisons(0)
+    // Estimate total comparisons needed: roughly n * log2(n) for merge-insertion sort
+    const estimated = Math.ceil(items.length * Math.log2(items.length))
+    setEstimatedTotal(estimated)
     try {
       const indices = items.map((_, i) => i)
       const sorted = await mergeInsertionSort(indices)
@@ -135,65 +139,110 @@ export default function RankerGame() {
     const left = items[currentCompare.leftIdx]
     const right = items[currentCompare.rightIdx]
     if (!left || !right) return null
+    
+    // Calculate progress
+    const progress = estimatedTotal > 0 ? Math.min(100, Math.round((comparisons / estimatedTotal) * 100)) : 0
+    const remaining = Math.max(0, estimatedTotal - comparisons)
+    
     return (
-      <div className="card p-3 mb-3">
-        <h5 className="mb-3">Choose which item is larger</h5>
-        <div className="d-flex gap-3 align-items-center">
-          <div className="flex-fill text-center">
-            <button className="btn btn-lg btn-outline-primary w-100" onClick={answerLeft}>{String(left.name)}</button>
+      <div className="card p-3 p-md-4 mb-3">
+        <div className="mb-4">
+          <div className="d-flex justify-content-between align-items-center mb-2">
+            <h5 className="mb-0">Progress</h5>
           </div>
-          <div className="text-muted">vs</div>
-          <div className="flex-fill text-center">
-            <button className="btn btn-lg btn-outline-primary w-100" onClick={answerRight}>{String(right.name)}</button>
+          <div className="progress" style={{ height: '24px' }}>
+            <div
+              className="progress-bar"
+              role="progressbar"
+              style={{ width: `${progress}%`, backgroundColor: 'var(--primary-color)' }}
+              aria-valuenow={progress}
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <span className="d-none d-sm-inline" style={{ fontSize: '0.85rem', fontWeight: '600' }}>
+                {progress}%
+              </span>
+            </div>
+          </div>
+          <div className="text-muted small mt-2">
+            {remaining > 0 ? `~${remaining} comparison${remaining !== 1 ? 's' : ''} remaining` : 'Almost done!'}
           </div>
         </div>
-        <div className="mt-2 text-muted">Comparisons made: {comparisons}</div>
+
+        <h5 className="mb-4">Which item is better?</h5>
+        <div className="row g-2 g-md-3 mb-3">
+          <div className="col-12 col-md-5">
+            <button className="btn btn-lg btn-outline-primary w-100" onClick={answerLeft}>
+              {String(left.name)}
+            </button>
+          </div>
+          <div className="col-12 col-md-2 d-flex align-items-center justify-content-center">
+            <span className="text-muted fw-bold">vs</span>
+          </div>
+          <div className="col-12 col-md-5">
+            <button className="btn btn-lg btn-outline-primary w-100" onClick={answerRight}>
+              {String(right.name)}
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="container py-4">
-      <h2>Ranker Game</h2>
+    <div className="container-fluid py-3 py-md-4">
+      <div className="row">
+        <div className="col-12 col-lg-8 mx-auto">
+          <h2 className="mb-4">Ranker Game</h2>
 
-      {!dataset && (
-        <>
-          <div className="alert alert-warning">No dataset found. Upload a CSV on Home to start.</div>
-          <button className="btn btn-primary" onClick={() => navigate('/')}>Go to Home</button>
-        </>
-      )}
-
-      {dataset && (
-        <>
-          <div className="card p-3 mb-3">
-            <p>Loaded dataset: <strong>{dataset.name}</strong></p>
-            <p>{items.length} item(s)</p>
-          </div>
-
-          {status === 'idle' && (
-            <div className="mb-3">
-              <button className="btn btn-primary me-2" onClick={startRanking} disabled={items.length < 2}>Start Ranking</button>
-              <button className="btn btn-secondary" onClick={() => { sessionStorage.removeItem('uploadedDataset'); navigate('/') }}>Cancel</button>
-            </div>
-          )}
-
-          {renderCompareCard()}
-
-          {status === 'done' && sortedIndices && (
-            <div className="card p-3">
-              <h5>Final sorted list</h5>
-              <ol>
-                {sortedIndices.map((si) => (
-                  <li key={si}>{items[si].name}</li>
-                ))}
-              </ol>
-              <div className="mt-3">
-                <button className="btn btn-secondary me-2" onClick={() => { sessionStorage.removeItem('uploadedDataset'); navigate('/') }}>Return Home</button>
+          {!dataset && (
+            <>
+              <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>No dataset found.</strong> Upload a CSV on Home to start.
               </div>
-            </div>
+              <button className="btn btn-primary" onClick={() => navigate('/')}>Go to Home</button>
+            </>
           )}
-        </>
-      )}
+
+          {dataset && (
+            <>
+              <div className="card p-3 p-md-4 mb-3">
+                <h5 className="text-start mb-2">Loaded dataset:</h5>
+                <p className="text-start mb-0"><strong>{dataset.name}</strong> • {items.length} item(s)</p>
+              </div>
+
+              {status === 'idle' && (
+                <div className="mb-3 d-flex flex-column flex-md-row gap-2">
+                  <button className="btn btn-primary" onClick={startRanking} disabled={items.length < 2}>
+                    Start Ranking
+                  </button>
+                  <button className="btn btn-secondary" onClick={() => { sessionStorage.removeItem('uploadedDataset'); navigate('/') }}>
+                    Cancel
+                  </button>
+                </div>
+              )}
+
+              {renderCompareCard()}
+
+              {status === 'done' && sortedIndices && (
+                <div className="card p-3 p-md-4">
+                  <h5 className="mb-3">Final sorted list</h5>
+                  <ol className="text-start mb-4">
+                    {sortedIndices.map((si) => (
+                      <li key={si} className="mb-2">{items[si].name}</li>
+                    ))}
+                  </ol>
+                  <div className="d-flex flex-column flex-md-row gap-2">
+                    <button className="btn btn-secondary" onClick={() => { sessionStorage.removeItem('uploadedDataset'); navigate('/') }}>
+                      Return Home
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
