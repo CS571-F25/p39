@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 const datasets = [
-  { name: 'Beatles Albums', file: '/datasets/beatles.csv' },
-  { name: 'Candy', file: '/datasets/candy.csv' },
-  { name: 'NFL Quarterbacks', file: '/datasets/quarterbacks.csv' },
-  { name: 'Quentin Tarantino Movies', file: '/datasets/tarantino.csv' },
-  { name: 'US Cities', file: '/datasets/uscities.csv' },
+  { name: 'Beatles Albums', file: '/p39/datasets/beatles.csv' },
+  { name: 'Candy', file: '/p39/datasets/candy.csv' },
+  { name: 'NFL Quarterbacks', file: '/p39/datasets/quarterbacks.csv' },
+  { name: 'Quentin Tarantino Movies', file: '/p39/datasets/tarantino.csv' },
+  { name: 'US Cities', file: '/p39/datasets/uscities.csv' },
 ]
 
 export default function Datasets() {
