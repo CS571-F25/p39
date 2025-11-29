@@ -22,9 +22,6 @@ export default function NavBar() {
             <li className="nav-item">
               <NavLink to="/tutorial" className={linkClass}>Tutorial</NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink to="/datasets" className={linkClass}>Datasets</NavLink>
-            </li>
           </ul>
         </div>
       </div>
