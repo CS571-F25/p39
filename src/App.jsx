@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './screens/Home'
 import Tutorial from './screens/Tutorial'
 import Datasets from './screens/Datasets'
+import RankerGame from './screens/RankerGame'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="*" element={<Home />} />
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/datasets" element={<Datasets />} />
+          <Route path="/ranker" element={<RankerGame />} />
         </Routes>
       </div>
     </>

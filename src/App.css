@@ -52,3 +52,34 @@ body {
 .read-the-docs {
   color: #888;
 }
+
+/* Tutorial list styling: make titles bold & slightly larger and keep numbers next to titles */
+.tutorial-list {
+  list-style-position: inside;
+  padding-left: 0;
+}
+.tutorial-list li {
+  margin-bottom: 0.75rem;
+}
+.tutorial-list .tutorial-title {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.08rem;
+  margin-right: 0.4rem;
+}
+
+/* Make the tutorial card half the width of the container on larger screens,
+   but full width on small screens for readability */
+.tutorial-card {
+  width: 50%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 768px) {
+  .tutorial-card {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

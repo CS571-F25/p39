@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function parseCSV(text) {
   // simple CSV parser supporting quoted fields and escaped quotes
@@ -33,6 +34,7 @@ export default function Home() {
   const [filename, setFilename] = useState(null)
   const [rows, setRows] = useState([])
   const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   const onPickFile = () => fileInputRef.current && fileInputRef.current.click()
 
@@ -53,8 +55,23 @@ export default function Home() {
       try {
         const text = String(reader.result)
         const parsed = parseCSV(text)
+        if (!parsed || parsed.length === 0) {
+          setError('CSV appears to be empty')
+          return
+        }
+
         setFilename(f.name)
         setRows(parsed)
+
+        // persist dataset so RankerGame can access it after navigation
+        try {
+          sessionStorage.setItem('uploadedDataset', JSON.stringify({ name: f.name, rows: parsed }))
+        } catch (err) {
+          console.warn('Failed to save dataset to sessionStorage', err)
+        }
+
+        // navigate to RankerGame screen
+        navigate('/ranker')
       } catch (err) {
         setError('Failed to parse CSV file')
       }
